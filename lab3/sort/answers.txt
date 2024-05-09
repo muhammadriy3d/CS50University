@@ -1,0 +1,11 @@
+sort1 uses: Bubble sort
+
+How do you know?: takes long time to solve random50000.txt 16,... real than the others
+
+sort2 uses: Merge sort
+
+How do you know?: takes no time to solve random50000.txt 6,... real than the other
+
+sort3 uses: Selection sort
+
+How do you know?: takes longer than merge and less than bubble sort to solve many txt files

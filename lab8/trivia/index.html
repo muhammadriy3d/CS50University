@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <title>Trivia!</title>
+    <style>
+        /* Add some CSS to visually disable the buttons */
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let incorrectCount = 0; // Counter for incorrect choices
+
+            // When clicked on any answer button
+            let answerButtons = document.querySelectorAll('.answer-button');
+            answerButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Check if this is the correct answer
+                    if (button.classList.contains('C')) {
+                        // Disable all answer buttons
+                        answerButtons.forEach(function(btn) {
+                            btn.classList.add('disabled');
+                        });
+                        // Highlight the correct answer
+                        button.style.backgroundColor = 'green';
+                        document.querySelector('#isCorrect').innerHTML = 'Correct!';
+                    } else {
+                        // Incorrect answer, set it to red
+                        button.style.backgroundColor = 'red';
+                        document.querySelector('#isCorrect').innerHTML = 'Incorrect!';
+                        incorrectCount++; // Increase the incorrect count
+                        if (incorrectCount >= 3) {
+                            // Automatically add the correct choice and disable all buttons
+                            document.querySelector('.C').classList.add('disabled');
+                            document.querySelector('.C').style.backgroundColor = 'green';
+                        }
+                    }
+                });
+            });
+
+            // Check the submission of the free response question
+            document.querySelector('#submit').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent form submission
+                let input = document.querySelector('input');
+                let userAnswer = input.value.toLowerCase(); // Convert to lowercase
+                let correctAnswer = "ctrl c";
+                if (userAnswer !== '') {
+                    if (userAnswer === correctAnswer) {
+                        input.style.backgroundColor = 'green';
+                        document.querySelector('#isFRCorrect').innerHTML = 'Correct!';
+                    } else {
+                        input.style.backgroundColor = 'red';
+                        document.querySelector('#isFRCorrect').innerHTML = 'Incorrect!';
+                    }
+                    input.setAttribute('disabled', 'true'); // Disable the input after submission
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="header">
+    <h1>Trivia!</h1>
+</div>
+
+<div class="container">
+    <div class="section">
+        <h2>Part 1: Multiple Choice</h2>
+        <hr>
+        <h3>What year was the very first model of the iPhone released?</h3>
+        <div id="isCorrect"></div>
+        <button id="A" class="answer-button IC" type="button">2001</button>
+        <button id="B" class="answer-button IC" type="button">2005</button>
+        <button id="C" class="answer-button C" type="button">2007</button>
+        <button id="D" class="answer-button IC" type="button">2015</button>
+    </div>
+
+    <div class="section">
+        <h2>Part 2: Free Response</h2>
+        <hr>
+        <h3>What do people use to copy and paste on most operating systems?</h3>
+        <p id="isFRCorrect"></p>
+        <form>
+            <input id="free-question" name="free-question" autofocus="off" autocomplete="off" placeholder="Your answer" />
+            <button id="submit" name="submit" type="submit">Check Answer</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
